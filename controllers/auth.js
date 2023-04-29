@@ -2,6 +2,7 @@ const { response } = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const { generateJWT } = require('../helpers/jwt');
+const { RES_MESSAGE } = require('../helpers/responseMessages');
 
 const createUser = async (req, res = response) => {
   const { email, password } = req.body;
@@ -12,7 +13,7 @@ const createUser = async (req, res = response) => {
     if (user) {
       return res.status(400).json({
         ok: false,
-        msg: 'Un usuario existe con ese correo'
+        msg: RES_MESSAGE.AUTH_MESSAGES.EMAIL_EXIST,
       });
     }
     user = new User(req.body);
@@ -27,17 +28,16 @@ const createUser = async (req, res = response) => {
 
     res.status(201).json({
       ok: true,
-      msg: 'registro',
+      msg: RES_MESSAGE.AUTH_MESSAGES.REGISTERED_USER,
       uid: user.id,
       name: user.name,
       token,
     });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Ups! Algo ha fallado, contacta con soporte'
+      msg: RES_MESSAGE.MESSAGE_500,
     });
   }
 };
@@ -51,7 +51,7 @@ const login = async (req, res = response) => {
     if (!user) {
       return res.status(400).json({
         ok: false,
-        msg: 'El correo y la contraseña no coinciden'
+        msg: RES_MESSAGE.AUTH_MESSAGES.AUTH_400_MESSAGE,
       });
     }
 
@@ -61,7 +61,7 @@ const login = async (req, res = response) => {
     if (!validPassword) {
       return res.status(400).json({
         ok: false,
-        msg: 'Contraseña incorrecta'
+        msg: RES_MESSAGE.AUTH_MESSAGES.INVALID_PASSWORD,
       });
     }
 
@@ -70,17 +70,16 @@ const login = async (req, res = response) => {
 
     res.json({
       ok: true,
-      msg: 'login',
+      msg: RES_MESSAGE.AUTH_MESSAGES.AUTH_LOGIN,
       uid: user.id,
       name: user.name,
       token,
     });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador'
+      msg: RES_MESSAGE.MESSAGE_500,
     });
   }
 };
@@ -93,8 +92,8 @@ const revalidateToken = async (req, res = response) => {
 
   res.json({
     ok: true,
-    msg: 'User updated',
-    token
+    msg: RES_MESSAGE.AUTH_MESSAGES.USER_UPDATED,
+    token,
   });
 };
 

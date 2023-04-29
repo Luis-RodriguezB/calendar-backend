@@ -7,7 +7,7 @@ const userValidator = [
   check('password', 'El password debe de ser de 6 caracteres').isLength({
     min: 6,
   }),
-  fieldValidator
+  fieldValidator,
 ];
 
 const loginValidator = [
@@ -15,7 +15,7 @@ const loginValidator = [
   check('password', 'El password debe de ser de 6 caracteres').isLength({
     min: 6,
   }),
-  fieldValidator
+  fieldValidator,
 ];
 
 module.exports = {
