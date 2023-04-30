@@ -93,6 +93,8 @@ const revalidateToken = async (req, res = response) => {
   res.json({
     ok: true,
     msg: RES_MESSAGE.AUTH_MESSAGES.USER_UPDATED,
+    uid,
+    name,
     token,
   });
 };
